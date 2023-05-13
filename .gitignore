@@ -1,0 +1,49 @@
+# Ignore Visual Studio Code specific files
+.vscode/
+
+# Ignore build artifacts
+Build/
+Builds/
+*_Data/
+
+# Ignore Unity specific files
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]nityGenerated/
+[Uu]nityPackageManager/
+sysinfo.txt
+
+# Ignore user-specific files
+*.userprefs
+*.pidb.meta
+
+# Ignore generated project files
+ExportedObj/
+.consulo/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Ignore Android and iOS build files
+*.apk
+*.unitypackage
+*.dmg
+*.app
+*.xcodeproj/
+*.xcworkspace/
+*.ipa/
+*.iml

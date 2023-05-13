@@ -1,0 +1,403 @@
+{
+    "audioConfigs": [
+        {
+            "name": "Audio\\出牌"
+        },
+        {
+            "name": "Audio\\失败"
+        },
+        {
+            "name": "Audio\\背景声"
+        },
+        {
+            "name": "Audio\\胜利"
+        },
+        {
+            "name": "Audio\\要不起"
+        },
+        {
+            "name": "Audio\\sound\\change"
+        },
+        {
+            "name": "Audio\\sound\\give"
+        },
+        {
+            "name": "Audio\\sound\\go"
+        },
+        {
+            "name": "Audio\\sound\\lose"
+        },
+        {
+            "name": "Audio\\sound\\menuselect"
+        },
+        {
+            "name": "Audio\\sound\\select"
+        },
+        {
+            "name": "Audio\\sound\\win"
+        },
+        {
+            "name": "Audio\\sound\\wrong"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_10"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_1s-1"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_1s"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_2"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_2s-1"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_2s"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_3-1"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_3"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_30-1"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_30"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_31-1"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_31"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_32-1"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_32"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_3s"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_4-1"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_4"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_41"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_411"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_42-1"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_42"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_422"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_5-1"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_5"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_6"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_7"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_8"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_9"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_A"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_begin"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_bking-1"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_bking"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_bomb"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_call"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_d10"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_d2"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_d3"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_d4"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_d5"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_d6"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_d7"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_d8"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_d9"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_dA"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_dJ"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_dK"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_dQ"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_dts"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_grab"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_J"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_K"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_nocall"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_nograb"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_pass-1"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_PASS-2"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_pass"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_Q"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_rocket-1"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_rocket"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_sking-1"
+        },
+        {
+            "name": "Audio\\sound\\boy\\M_sking"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_10"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_1s-1"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_1s"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_2"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_2s"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_3-1"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_3"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_30-1"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_30"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_31-1"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_31"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_32-1"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_32"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_3s"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_4-1"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_4"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_411"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_42-1"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_42"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_422"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_5-1"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_5"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_6"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_7"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_8"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_9"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_A"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_begin"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_bking-1"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_bking"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_bomb"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_call"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_d10"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_d2"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_d3"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_d4"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_d5"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_d6"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_d7"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_d8"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_d9"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_dA"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_dJ"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_dK"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_dQ"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_dts"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_grab"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_J"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_K"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_nocall"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_nograb"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_pass-1"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_PASS-2"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_pass"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_Q"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_rocket-1"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_rocket"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_sking-1"
+        },
+        {
+            "name": "Audio\\sound\\girl\\F_sking"
+        }
+    ]
+}
