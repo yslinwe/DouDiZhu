@@ -1,0 +1,401 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+public class GameManager : MonoBehaviour
+{
+    public enum playerType
+    {
+        player,
+        dealer
+    }
+
+    private Load playerLoads;
+    private Load dealerLoads;
+    public Deck deck;
+    public List<Card> playerCards;
+    public List<Card> dealerCards1;
+    public List<Card> dealerCards2;
+    public List<Card> leftOverCards;
+
+    public List<GameObject> showTip;
+
+    List<GameObject> playerCardsObjs;
+    List<GameObject> dealerCardsObjs1;
+    List<GameObject> dealerCardsObjs2;
+    List<GameObject> leftOverCardsObjs;
+
+    public Transform playerparent;
+    public Transform dealerparent1;
+    public Transform dealerparent2;
+    public Transform leftOverparent;
+    public Sprite[] Sprites;
+
+    List<Card> lastPlayed;
+    List<Card> player;
+    List<GameObject> playerObjs;
+    int playerIndex;
+    int passNum;
+    List<List<Card>> playerList;
+    List<List<GameObject>> playerObjsList;
+    int AllCandidatesNum;
+    private float lastUpdateTime;
+    private Timer timer;
+    private UItimer uitimer;
+    private AudioManager audioManager = null;
+    // static
+    public static List<GameObject> playerChooseObj;
+    private void DealCards(Transform playerparent, playerType type, out List<Card> playerCards, out List<GameObject> objs)
+    {
+        playerCards = new List<Card>();
+        playerLoads = new Load();
+        int CardLengths = 17;
+        if (deck.getCardsCount() < 17)
+        {
+            CardLengths = deck.getCardsCount();
+        }
+        objs = new List<GameObject>();
+        for (int i = 0; i < CardLengths; i++)
+        {
+            Card card = deck.Deal();
+            playerCards.Add(card);
+            string objName = type == playerType.player ? "playerCard" : "othersCard";
+            GameObject obj = playerLoads.LoadObj(objName);
+            int index = card.indexOfSprite();
+            Sprite sp = Sprites[index];
+            obj.GetComponent<Image>().sprite = sp;
+            obj.transform.parent = playerparent;
+            obj.transform.localRotation = Quaternion.identity;
+            objs.Add(obj);
+        }
+        //排序
+        playerCards.Sort((a, b) => a.GetCardRank() - b.GetCardRank());
+        for (int i = 0; i < CardLengths; i++)
+        {
+            Card card = playerCards[i];
+            GameObject obj = objs[i];
+            int index = card.indexOfSprite();
+            Sprite sp = Sprites[index];
+            obj.GetComponent<Image>().sprite = sp;
+        }
+    }
+    private void RemoveRangeCards(int startIndex, int delCount, List<GameObject> playerObjs)
+    {
+        for (int i = startIndex; i < startIndex + delCount; i++)
+        {
+            Destroy(playerObjs[i]);
+        }
+        playerObjs.RemoveRange(startIndex, delCount);
+    }
+    private List<GameObject> ShowOneceCards(Transform playerparent, List<Card> playerCards, List<GameObject> objs)
+    {
+        foreach (var obj in objs)
+        {
+            Destroy(obj);
+        }
+        for (int i = 0; i < playerCards.Count; i++)
+        {
+            Card card = playerCards[i];
+            GameObject obj = playerLoads.LoadObj("othersCard");
+            int index = card.indexOfSprite();
+            Sprite sp = Sprites[index];
+            obj.GetComponent<Image>().sprite = sp;
+            obj.transform.parent = playerparent;
+            obj.transform.localRotation = Quaternion.identity;
+            objs.Add(obj);
+        }
+        return objs;
+    }
+    void Start()
+    {
+        deck = new Deck();
+        deck.Shuffle();
+        Sprites = Load.LoadSprite("card-deck");
+        DealCards(playerparent, playerType.player, out playerCards, out playerCardsObjs);
+        DealCards(dealerparent1, playerType.dealer, out dealerCards1, out dealerCardsObjs1);
+        DealCards(dealerparent2, playerType.dealer, out dealerCards2, out dealerCardsObjs2);
+        DealCards(leftOverparent,playerType.dealer,out leftOverCards,out leftOverCardsObjs);
+        playerList = new List<List<Card>>();
+        leftOverCardsObjs = new List<GameObject>();
+        playerObjsList = new List<List<GameObject>>();
+        lastPlayed = new List<Card>();
+        playerIndex = 0;
+        passNum = 0;
+        playerList.Add(playerCards);
+        playerList.Add(dealerCards1);
+        playerList.Add(dealerCards2);
+        playerObjsList.Add(playerCardsObjs);
+        playerObjsList.Add(dealerCardsObjs1);
+        playerObjsList.Add(dealerCardsObjs2);
+
+        //button link
+        NoCardsButton.onClick.AddListener(NoCardsOnClick);
+        PlayingCardsButton.onClick.AddListener(PlayingCardsOnClick);
+
+        playerChooseObj = new List<GameObject>();
+        timer = GetComponent<Timer>();
+        uitimer = GetComponent<UItimer>();
+
+        audioManager = AudioManager.instance;
+        audioManager.PlayBGM("背景声");
+    }
+    public List<Card> ObjToChooseCard(List<GameObject> chooseObjs)
+    {
+        List<Card> played = new List<Card>();
+        foreach (var chooseObj in chooseObjs)
+        {
+            int index = playerObjs.IndexOf(chooseObj);
+            played.Add(player[index]);
+        }
+        return played;
+    }
+    private void NoCardsOnClick()
+    {
+        // Debug.Log("游戏玩家不发牌转台");
+        //lastPlayed.Clear();
+        playerIndex++;
+        playerIndex = playerIndex % 3;
+        timer.StopTimer();
+        passNum++;
+        Debug.Log("Pass");
+        audioManager.PlaySound("要不起");
+    }
+    private void RemoveCards(List<Card> played, List<GameObject> chooseObjs)
+    {
+        for (int i = 0; i < played.Count; i++)
+        {
+            Card card = played[i];
+            GameObject chooseObj = chooseObjs[i];
+            //删除player中的Card
+            player.Remove(card);
+            // 删除显示的Card
+            Destroy(chooseObj);
+            playerObjs.Remove(chooseObj);
+        }
+    }
+    public enum Sex{
+        M,
+        F
+    }
+    private void playTypeSound(DoudizhuRule.CardType handType,List<Card> playerplayed,Sex sex)
+    {
+        string sexType = sex.ToString()+"_";
+        // Debug.Log(sexType);
+        switch (handType) {
+            case DoudizhuRule.CardType.Single:
+                audioManager.PlaySound(sexType+playerplayed[0].soundName);
+                break;
+            case DoudizhuRule.CardType.Pair:
+                audioManager.PlaySound(sexType+"d"+playerplayed[0].soundName);
+                break;
+            case DoudizhuRule.CardType.Three:
+                audioManager.PlaySound(sexType+"30");
+                break;
+            case DoudizhuRule.CardType.ThreeWithOne:
+                audioManager.PlaySound(sexType+"31-1");
+                break;
+            case DoudizhuRule.CardType.ThreeWithPair:
+                audioManager.PlaySound(sexType+"32");
+                break;
+            case DoudizhuRule.CardType.Straight:
+                audioManager.PlaySound(sexType+"1s");
+                break;
+            case DoudizhuRule.CardType.StraightPair:
+                audioManager.PlaySound(sexType+"2s");
+                break;
+            case DoudizhuRule.CardType.StraightThree:
+                audioManager.PlaySound(sexType+"3s");
+                break;
+            case DoudizhuRule.CardType.Bomb:
+                audioManager.PlaySound(sexType+"bomb");
+                break;
+            case DoudizhuRule.CardType.JokerBomb:
+                audioManager.PlaySound(sexType+"rocket-1");
+                break;
+        }
+    }
+    private void PlayingCardsOnClick()
+    {
+        //删除player中的Card
+        // player.RemoveRange(index, played.Count);
+        // 删除显示的Card
+        // RemoveRangeCards(index, played.Count, playerObjs);
+        List<Card> playerplayed = ObjToChooseCard(playerChooseObj);
+        DoudizhuRule.CardType handType;
+        if (DoudizhuRule.CanPlay(playerplayed, lastPlayed,out handType))
+        {
+            Debug.Log(handType);
+            // Debug.Log("游戏玩家发牌转台");
+            RemoveCards(playerplayed, playerChooseObj);
+            lastPlayed = playerplayed;
+            leftOverCardsObjs = ShowOneceCards(leftOverparent, playerplayed, leftOverCardsObjs);
+            if (player.Count == 0)
+            {
+                isGameOver = true;
+                timer.StopAllCoroutines();
+                // Debug.Log("Game over.");
+                audioManager.StopBGM("背景声");
+                audioManager.PlaySound("胜利");
+                return;
+            }
+            playerIndex++;
+            passNum = 0;
+            playerIndex = playerIndex % 3;
+            playerChooseObj.Clear();
+            timer.StopTimer();
+            audioManager.PlaySound("出牌");
+            playTypeSound(handType,playerplayed,Sex.F);
+        }
+        else
+        {
+            GameObject single = showTip[playerIndex].transform.GetChild(0).gameObject;
+            GameObject text = showTip[playerIndex].transform.GetChild(1).gameObject;
+            single.SetActive(false);
+            text.SetActive(true);
+            showTip[playerIndex].gameObject.SetActive(true);
+            TextMeshProUGUI tipText = text.GetComponent<TextMeshProUGUI>();
+            tipText.text = "不合法";
+            uitimer.StartTime(2,()=>{
+                single.SetActive(true);
+                text.SetActive(false);
+            });
+        }
+    }
+    private void setShowTip(int playerIndex, int AllCandidatesNum)
+    {
+        for (int i = 0; i < showTip.Count; i++)
+        {
+            showTip[i].SetActive(false);
+            if (playerIndex == i)
+            {
+                GameObject single = showTip[i].transform.GetChild(0).gameObject;
+                GameObject text = showTip[i].transform.GetChild(1).gameObject;
+                single.SetActive(false);
+                text.SetActive(false);
+
+                if (AllCandidatesNum == 0)
+                {
+                    TextMeshProUGUI tipText = text.GetComponent<TextMeshProUGUI>();
+                    showTip[i].SetActive(true);
+                    text.SetActive(true);
+                    tipText.text = "Pass";
+                    audioManager.PlaySound("要不起");
+                }
+                else
+                {
+                    TextMeshProUGUI timerText = single.GetComponentInChildren<TextMeshProUGUI>();
+                    showTip[i].SetActive(true);
+                    single.SetActive(true);
+                    timer.Timertext = timerText;
+                }
+            }
+        }
+    }
+    public Button NoCardsButton;
+    public Button PlayingCardsButton;
+    private void Game()
+    {   
+        Debug.Log(passNum);
+        timer.StopAllCoroutines();
+        completeOneRound = false;
+        player = playerList[playerIndex];
+        playerObjs = playerObjsList[playerIndex];
+        // Debug.Log(string.Format("{0}位，剩余牌数{1}",playerIndex,player.Count));
+        if (player.Count > 0)
+        {
+            if(passNum == 2)
+            {
+                passNum = 0;
+                Debug.Log("清除");
+                lastPlayed.Clear();
+            }
+            // Debug.Log("Player " + (player == playerCards ? "1" : player == dealerCards1 ? "2" : "3") + "'s turn:");
+            AllCandidatesNum = 0;
+            Dictionary<DouDiZhuAI.CardType, List<List<Card>>> candidates = DouDiZhuAI.GetAllCandidates(player, lastPlayed, out AllCandidatesNum);
+            setShowTip(playerIndex, AllCandidatesNum);
+            if (AllCandidatesNum == 0)
+            {
+                // Debug.Log("Pass.");  
+                timer.StartTimer(2,() =>{
+                    Debug.Log("玩家"+playerIndex+" Pass");
+                    // Debug.Log("玩家"+playerIndex+" 转台");
+                    //lastPlayed.Clear();
+                    playerIndex++;
+                    playerIndex = playerIndex % 3;
+                    passNum++;
+                });              
+            }
+            else
+            {
+                if (playerIndex == 0)
+                {
+                    // 游戏玩家
+                    // Debug.Log("游戏玩家");
+                    timer.StartTimer(30,() =>{
+                        // Debug.Log("游戏玩家转台");
+                        //lastPlayed.Clear();
+                        Debug.Log("Pass");
+                        playerIndex++;
+                        passNum++;
+                        playerIndex = playerIndex % 3;
+                    });
+                }
+                else
+                {
+                    timer.StartTimer(5,() =>{
+                        // AI玩家
+                        DouDiZhuAI.CardType handType;
+                        List<Card> played = DouDiZhuAI.ChooseBestCandidate(candidates,out handType);
+                        Debug.Log("AI玩家牌型: "+handType);
+                        if(played.Count==0|| handType == DouDiZhuAI.CardType.None)
+                        {
+                            setShowTip(playerIndex, 0);
+                            Debug.Log("Pass");
+                            passNum++;
+                            playerIndex++;
+                            playerIndex = playerIndex % 3;
+                            return;
+                        }
+                        playTypeSound(handType,played,Sex.M);
+                        // Debug.Log("AI玩家"+playerIndex+ string.Join(" ", played));
+                        int index = player.FindIndex(x => x == played[0]);
+                        // Debug.Log(string.Format("第{0}位，出牌数{1}",playerIndex,played.Count));
+                        // Debug.Log("index:"+index);
+                        player.RemoveRange(index, played.Count);
+                        RemoveRangeCards(index, played.Count, playerObjs);
+                        lastPlayed = played;
+                        leftOverCardsObjs = ShowOneceCards(leftOverparent, played, leftOverCardsObjs);
+                        if (player.Count == 0)
+                        {
+                            isGameOver = true;
+                            timer.StopAllCoroutines();
+                            audioManager.StopBGM("背景声");
+                            audioManager.PlaySound("失败");
+                            // Debug.Log("Game over.");
+                            return;
+                        }
+                        // Debug.Log("AI玩家"+playerIndex+"转台");
+                        passNum = 0;
+                        playerIndex++;
+                        playerIndex = playerIndex % 3;
+                    });  
+                }
+            }
+            // player = player == playerCards ? dealerCards1 : player == dealerCards1 ? dealerCards2 : playerCards;      
+        }
+        //不等待
+        // taskTimeLimit = 0f; 
+        
+        completeOneRound = true;
+    }
+    bool isGameOver = false;
+    bool completeOneRound = true;
+    void Update()
+    {
+        if (!isGameOver&&!timer.IsRunning&&completeOneRound)
+        {
+            Game();
+        }
+    }
+}
